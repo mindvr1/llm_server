@@ -66,7 +66,7 @@ async def websocket_endpoint(websocket: WebSocket):
                 input_variables=["system", "history", "user_input"],
                 template=template
             )
-
+            print(f"📨 사용자: {user_input}")
             callback = AsyncIteratorCallbackHandler()
             llm = get_streaming_llm(model, temperature, callback)
 
@@ -89,11 +89,11 @@ async def websocket_endpoint(websocket: WebSocket):
             # 응답을 메모리에 저장
             chat_history.append({
                 "user": user_input,
-                "response": response_text.content
+                "response": response_text.content,
             })
 
             await websocket.send_json({"done": True})
-            print(f"📨 응답: {response_text}")
+            print(f"📨 상담사: {response_text.content}")
         except Exception as e:
             await websocket.send_json({"error": str(e)})
             print("❌ 에러 발생:", e)
