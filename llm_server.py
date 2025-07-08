@@ -92,7 +92,7 @@ async def websocket_endpoint(websocket: WebSocket):
                 "response": response_text.content,
             })
 
-            await websocket.send_json({"done": True})
+            await websocket.send_json({"done": True, "content":response_text.content})
             print(f"📨 상담사: {response_text.content}")
         except Exception as e:
             await websocket.send_json({"error": str(e)})
